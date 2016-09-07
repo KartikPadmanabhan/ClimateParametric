@@ -1,2 +1,2 @@
 # ClimateParametric
-Climate Modelling Using Oracle Big Data SQL - Parametric Estimation Techniques
+Climate Modelling Using Oracle Big Data Appliance - Parametric Estimation Techniques
