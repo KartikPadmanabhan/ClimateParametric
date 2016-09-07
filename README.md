@@ -8,6 +8,6 @@
 
 ##### 1.2 Installing spark-sklearn package
 
-### 2. Climate Modelling Using Parametric Estimation Techniques
+### 2. Climate Modelling in Oracle Big Data Appliance Using Parametric Estimation Techniques
 
-### 3. Climate Modelling Using Parametric Estimation Techniques
+### 3. Using Non-Parameteric Estimators (Kernel Density Approach) to Model Climate in Big Data Appliance
