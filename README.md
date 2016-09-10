@@ -25,4 +25,5 @@ The demo exploits two of the most popular parametric methods on top of Oracle Bi
 
 a. The following is the histogram data plotted accross all months
 
-![alt text](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.htm)
+[![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.htm)
+
