@@ -20,9 +20,9 @@ The demo exploits two of the most popular parametric methods on top of Oracle Bi
 * Oracle Big Data Appliance
 * Anaconda Parcels for Cloudera Manager Installed
 
-### Code
-
-* IPython Notebook Demonstrating the project
-* 
 
 ### Interesting Results
+
+a. The following is the histogram data plotted accross all months
+
+<iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~kpadmana/838.embed"></iframe>
