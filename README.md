@@ -21,7 +21,7 @@ The demo exploits two of the most popular parametric methods on top of Oracle Bi
 
 ### Interesting Results
 
-![plotly link](https://plot.ly/~kpadmana/838/jan-feb-mar-apr-may-jun-jul-aug-sep-oct-nov-dec)
+[plotly link](https://plot.ly/~kpadmana/838/jan-feb-mar-apr-may-jun-jul-aug-sep-oct-nov-dec)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.htm)
 
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mom.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mom.htm)
