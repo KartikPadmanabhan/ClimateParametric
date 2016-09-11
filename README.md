@@ -24,9 +24,9 @@ The demo exploits two of the most popular parametric methods on top of Oracle Bi
 [plotly link](https://plot.ly/~kpadmana/838/jan-feb-mar-apr-may-jun-jul-aug-sep-oct-nov-dec)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.htm)
 
-[plotly link](https://plot.ly/~kpadmana/858/-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0)
+[plotly link](https://plot.ly/~kpadmana/856/-line0-line1-line0-line1-line0-line1-line0-line1-line0-line1-line0-line1-line0-l)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mom.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mom.htm)
 
-[plotly link](https://plot.ly/~kpadmana/856/-line0-line1-line0-line1-line0-line1-line0-line1-line0-line1-line0-line1-line0-l)
+[plotly link](https://plot.ly/~kpadmana/858/-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mle.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mle.htm)
 
