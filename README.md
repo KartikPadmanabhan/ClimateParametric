@@ -16,8 +16,9 @@ The demo exploits two of the most popular parametric methods on top of Oracle Bi
 ### Prerequisites
 
 * Oracle Big Data Appliance
-* Anaconda Parcels for Cloudera Manager Installed
-
+* Anaconda Parcels for Cloudera Manager installed
+* Plotly needs to be installed accross all cell nodes
+* Cufflinks to work with Plotly and Pandas
 
 ### Interesting Results
 
