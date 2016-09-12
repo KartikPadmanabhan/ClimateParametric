@@ -47,3 +47,6 @@ KstestResult(statistic=0.79827003150003439, pvalue=0.0)
 [plotly link](https://plot.ly/~kpadmana/858/-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mle.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mle.htm)
 
+### Note
+
+If you are using the plotly data for presenting the results to an audience, please download the code and the dataset from the plotly link provided. The charts shown in plotly are modified from the images that are exported from matplotlib onto plotly.
