@@ -31,11 +31,19 @@ KstestResult(statistic=0.87857142857142856, pvalue=0.0)
 KstestResult(statistic=0.78699163553602158, pvalue=0.0)
 KstestResult(statistic=0.79827003150003439, pvalue=0.0)
 
+#### Koglomorov Test Statistics
+
+#### Histogram of the rainfall data
+
 [plotly link](https://plot.ly/~kpadmana/838/jan-feb-mar-apr-may-jun-jul-aug-sep-oct-nov-dec)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.htm)
 
+#### Method of Moments Based Modelling Results
+
 [plotly link](https://plot.ly/~kpadmana/856/-line0-line1-line0-line1-line0-line1-line0-line1-line0-line1-line0-line1-line0-l)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mom.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mom.htm)
+
+#### Maximum Likelihood Based Modelling Results
 
 [plotly link](https://plot.ly/~kpadmana/858/-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0-line0)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mle.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-mle.htm)
