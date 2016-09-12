@@ -32,8 +32,6 @@ KstestResult(statistic=0.78699163553602158, pvalue=0.0)
 
 KstestResult(statistic=0.79827003150003439, pvalue=0.0)
 
-#### Koglomorov Test Statistics
-
 #### Histogram of the rainfall data
 
 [plotly link](https://plot.ly/~kpadmana/838/jan-feb-mar-apr-may-jun-jul-aug-sep-oct-nov-dec)
