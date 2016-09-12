@@ -22,6 +22,15 @@ The demo exploits two of the most popular parametric methods on top of Oracle Bi
 
 ### Interesting Results
 
+#### Koglomorov Test Statistics
+
+I had chosen 4 distributions (details below) but gamma distribution showed the best distance statistic and hence was chosen as the best choice to model the distribution.
+
+KstestResult(statistic=0.77216731986892584, pvalue=0.0)
+KstestResult(statistic=0.87857142857142856, pvalue=0.0)
+KstestResult(statistic=0.78699163553602158, pvalue=0.0)
+KstestResult(statistic=0.79827003150003439, pvalue=0.0)
+
 [plotly link](https://plot.ly/~kpadmana/838/jan-feb-mar-apr-may-jun-jul-aug-sep-oct-nov-dec)
 [![ScreenShot](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.png)](https://rawgit.com/KartikPadmanabhan/Parametric-Estimation/master/html/climate-histogram.htm)
 
