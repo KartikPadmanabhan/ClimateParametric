@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<title>CLIMATE MODELLING USING ORACLE BIG DATA APPLIANCE</title>
+
+<xmp theme="chaitin" "display:none;">
+
+
+```python
+''' Import all relevant packages'''
+```
+
+
+```python
+%pylab inline
+import numpy, scipy, sklearn
+import pandas as pd
+import plotly.plotly as py
+import plotly.graph_objs as go
+import scipy.stats as scs
+import plotly.plotly as py
+import numpy as np
+import cufflinks as cf
+```
+
+    Populating the interactive namespace from numpy and matplotlib
+
+
+
+```python
+import matplotlib.pyplot as plt
+import plotly.tools as tls
+```
+
+
+```python
+'''Create a spark RDD from the file inside HDFS'''
+rainrdd = sc.textFile('hdfs:///user/root/spark/parametric_estimation/rainfall.csv')
+```
+
+
+```python
+'''Preprocessing to convert RDD into spark dataframe'''
+sparkDF=rainrdd.map(lambda x: str(x)).map(lambda w: w.split(',')).toDF()
+'''Convert Spark DFF into Pandas DataFrame'''
+df = sparkDF.toPandas()
+```
+
+
+```python
+type(df)
+```
+
+
+
+
+    pandas.core.frame.DataFrame
+
+
+
+
+```python
+df.columns = df.iloc[0]
+df=df.reindex(df.index.drop(0))
+df.head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Jan</th>
+      <th>Feb</th>
+      <th>Mar</th>
+      <th>Apr</th>
+      <th>May</th>
+      <th>Jun</th>
+      <th>Jul</th>
+      <th>Aug</th>
+      <th>Sep</th>
+      <th>Oct</th>
+      <th>Nov</th>
+      <th>Dec</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>1871</td>
+      <td>2.76</td>
+      <td>4.58</td>
+      <td>5.01</td>
+      <td>4.13</td>
+      <td>3.3</td>
+      <td>2.98</td>
+      <td>1.58</td>
+      <td>2.36</td>
+      <td>0.95</td>
+      <td>1.31</td>
+      <td>2.13</td>
+      <td>1.65</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1872</td>
+      <td>2.32</td>
+      <td>2.11</td>
+      <td>3.14</td>
+      <td>5.91</td>
+      <td>3.09</td>
+      <td>5.17</td>
+      <td>6.1</td>
+      <td>1.65</td>
+      <td>4.5</td>
+      <td>1.58</td>
+      <td>2.25</td>
+      <td>2.38</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1873</td>
+      <td>2.96</td>
+      <td>7.14</td>
+      <td>4.11</td>
+      <td>3.59</td>
+      <td>6.31</td>
+      <td>4.2</td>
+      <td>4.63</td>
+      <td>2.36</td>
+      <td>1.81</td>
+      <td>4.28</td>
+      <td>4.36</td>
+      <td>5.94</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1874</td>
+      <td>5.22</td>
+      <td>9.23</td>
+      <td>5.36</td>
+      <td>11.84</td>
+      <td>1.49</td>
+      <td>2.87</td>
+      <td>2.65</td>
+      <td>3.52</td>
+      <td>3.12</td>
+      <td>2.63</td>
+      <td>6.12</td>
+      <td>4.19</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1875</td>
+      <td>6.15</td>
+      <td>3.06</td>
+      <td>8.14</td>
+      <td>4.22</td>
+      <td>1.73</td>
+      <td>5.63</td>
+      <td>8.12</td>
+      <td>1.6</td>
+      <td>3.79</td>
+      <td>1.25</td>
+      <td>5.46</td>
+      <td>4.3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df.iloc[:,1:]=df.iloc[:,1:].applymap(lambda x: float(x))
+```
+
+
+```python
+data = [go.Histogram(y=df['Jan'])]
+```
+
+
+```python
+'''Please note we need cufflinks to use the function below.'''
+df.iloc[:,1:].iplot(kind='histogram', subplots=True, shape=(3, 4), filename='histogram-subplots')
+```
+
+
+
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~kpadmana/864.embed" height="525px" width="100%"></iframe>
+
+
+
+
+```python
+'''function to import for koglomorov test'''
+from scipy.stats import kstest
+```
+
+
+```python
+print kstest(df.Jan.astype(float),'gamma',args=(1,))
+print kstest(df.Jan.astype(float),'uniform',args=(1,))
+print kstest(df.Jan.astype(float),'norm',args=(1,))
+print kstest(df.Jan.astype(float),'poisson',args=(1,))
+```
+
+    KstestResult(statistic=0.77216731986892584, pvalue=0.0)
+    KstestResult(statistic=0.87857142857142856, pvalue=0.0)
+    KstestResult(statistic=0.78699163553602158, pvalue=0.0)
+    KstestResult(statistic=0.79827003150003439, pvalue=0.0)
+
+
+
+```python
+# For month of January find sample mean, variance and use Gamma distribution
+jan_data = df['Jan']
+sample_mean = jan_data.mean()
+# Numpy has no built-in function for sample variance, only population var
+sample_var = np.sum(np.square(jan_data - sample_mean)) /  (jan_data.count() - 1)
+alpha = sample_mean**2 / sample_var
+beta = sample_mean / sample_var 
+norm_mean = sample_mean
+norm_var = sample_var
+gamma_rv = scs.gamma(a=alpha, scale=1/beta)
+norm_rv = scs.norm(norm_mean, norm_var)
+x_vals = np.linspace(jan_data.min(), jan_data.max())
+gamma_p = gamma_rv.pdf(x_vals)
+norm_p = norm_rv.pdf(x_vals)
+```
+
+
+```python
+'''Plotting only January Rainfall'''
+x=x_vals
+y1=gamma_p
+y2=norm_p
+fig = plt.figure(figsize=(6,5))
+ax = fig.add_subplot(111)
+ax.hist(jan_data,bins=20, normed=1, edgecolor='none')
+ax.plot(x, y1, '.-')
+ax.plot(x, y2, 'r.-')
+
+ax.set_xlabel('Rainfall')
+ax.set_ylabel('Probability Density')
+ax.set_title('January Rainfall')
+
+py.iplot_mpl(fig, filename='mpl-double-axis')
+```
+
+
+
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~kpadmana/840.embed" height="525px" width="100%"></iframe>
+
+
+
+
+```python
+'''Plotting MOM Estimation for all the months'''
+fig = plt.figure()
+# For month of January find sample mean, variance and use Gamma distribution
+jan_data = df['Jan']
+sample_mean_jan = jan_data.mean()
+# Numpy has no built-in function for sample variance, only population var
+sample_var_jan = np.sum(np.square(jan_data - sample_mean_jan)) /  (jan_data.count() - 1)
+alpha_jan = sample_mean_jan**2 / sample_var_jan
+beta_jan = sample_mean_jan / sample_var_jan
+norm_mean_jan = sample_mean_jan
+norm_var_jan = sample_var_jan
+gamma_rv_jan = scs.gamma(a=alpha_jan, scale=1/beta_jan)
+norm_rv_jan = scs.norm(norm_mean_jan, norm_var_jan)
+x_vals_jan = np.linspace(jan_data.min(), jan_data.max())
+gamma_p_jan = gamma_rv_jan.pdf(x_vals_jan)
+norm_p_jan = norm_rv_jan.pdf(x_vals_jan)
+x_jan=x_vals_jan
+y1_jan=gamma_p_jan
+y2_jan=norm_p_jan
+ax1 = fig.add_subplot(221)
+ax1.hist(jan_data,bins=30, normed=1, edgecolor='none')
+ax1.plot(x_jan, y1_jan, '.-')
+ax1.plot(x_jan, y2_jan, 'r.-')
+ax1.set_xlabel('Rainfall')
+ax1.set_ylabel('Probability Density')
+ax1.set_title('January Rainfall')
+#**************************************************
+feb_data = df['Feb']
+sample_mean_feb = feb_data.mean()
+# Numpy has no built-in function for sample variance, only population var
+sample_var_feb = np.sum(np.square(feb_data - sample_mean_feb)) /  (feb_data.count() - 1)
+alpha_feb = sample_mean_feb**2 / sample_var_feb
+beta_feb = sample_mean_feb / sample_var_feb
+norm_mean_feb = sample_mean_feb
+norm_var_feb = sample_var_feb
+gamma_rv_feb = scs.gamma(a=alpha_feb, scale=1/beta_feb)
+norm_rv_feb = scs.norm(norm_mean_feb, norm_var_feb)
+x_vals_feb = np.linspace(feb_data.min(), feb_data.max())
+gamma_p_feb = gamma_rv_feb.pdf(x_vals_feb)
+norm_p_feb = norm_rv_feb.pdf(x_vals_feb)
+x_feb=x_vals_feb
+y1_feb=gamma_p_feb
+y2_feb=norm_p_feb
+ax2 = fig.add_subplot(222)
+ax2.hist(feb_data,bins=30, normed=1, edgecolor='none')
+ax2.plot(x_feb, y1_feb, '.-')
+ax2.plot(x_feb, y2_feb, 'r.-')
+ax2.set_xlabel('Rainfall')
+ax2.set_ylabel('Probability Density')
+ax2.set_title('February Rainfall')
+#**************************************************
+fig.tight_layout()
+plotly_fig = tls.mpl_to_plotly( fig )
+py.iplot_mpl(fig, filename='rainfall')
+#plotly_fig = tls.mpl_to_plotly( fig )
+#plotly_url = py.plot(plotly_fig)
+```
+
+
+
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~kpadmana/862.embed" height="525px" width="100%"></iframe>
+
+
+
+
+```python
+'''METHOD OF MOMENTS ESTIMATION'''
+fig = plt.figure()
+months=[col for col in df.columns if col != 'Year']
+nplot=1
+for month in months:
+# For month of January find sample mean, variance and use Gamma distribution
+    data = df[month]
+    sample_mean = data.mean()
+    # Numpy has no built-in function for sample variance, only population var
+    sample_var = np.sum(np.square(data - sample_mean)) /  (data.count() - 1)
+    alpha = sample_mean**2 / sample_var
+    beta = sample_mean / sample_var
+    norm_mean = sample_mean
+    norm_var = sample_var
+    gamma_rv = scs.gamma(a=alpha, scale=1/beta)
+    norm_rv = scs.norm(norm_mean, norm_var)
+    x_vals = np.linspace(data.min(), data.max())
+    gamma_p = gamma_rv.pdf(x_vals)
+    norm_p = norm_rv.pdf(x_vals)
+    x=x_vals
+    y1=gamma_p
+    y2=norm_p 
+    ax = fig.add_subplot(6,2,nplot)
+    ax.hist(data,bins=30, normed=1, edgecolor='none')
+    ax.plot(x, y1, '.-')
+    ax.plot(x, y2, 'r.-')
+    ax.set_xlabel('Rainfall')
+    ax.set_ylabel('Probability Density')
+    s=month + " RainFall"
+    ax.set_title(s)
+    nplot+=1
+plotly_fig = tls.mpl_to_plotly( fig )
+py.iplot_mpl(fig, filename='rainfall')
+#plotly_fig = tls.mpl_to_plotly( fig )
+#plotly_url = py.plot(plotly_fig)
+```
+
+
+
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~kpadmana/862.embed" height="525px" width="100%"></iframe>
+
+
+
+''' Please note at this time click the EDIT CHART and beautify the chart as per your choice. There are tutorials available on this most widely tool. The chart is beautified in order to present these interesting results to the audience'''
+
+'''MAXIMUM LIKELIHOOD ESTIMATION'''
+fig = plt.figure()
+months=[col for col in df.columns if col != 'Year']
+nplot=1
+for month in months:
+# For month of January find sample mean, variance and use Gamma distribution
+    data = df[month]
+    sample_mean = data.mean()
+    # Numpy has no built-in function for sample variance, only population var
+    sample_var = np.sum(np.square(data - sample_mean)) /  (data.count() - 1)
+    alpha = sample_mean**2 / sample_var
+    beta = sample_mean / sample_var
+    # Use MLE to fit a gamma distribution
+    '''If we do not use np.float64 we get AttributEerror'''
+    ahat, loc, bhat = scs.gamma.fit(np.float64(df[month]), floc=0)
+    alpha_mle, beta_mle = ahat, 1./bhat
+    
+    gamma_rv = scs.gamma(a=alpha_mle, scale=1/beta_mle)
+    x_vals = np.linspace(data.min(), data.max())
+    gamma_p = gamma_rv.pdf(x_vals)
+    x=x_vals
+    y1=gamma_p
+    ax = fig.add_subplot(6,2,nplot)
+    ax.hist(data,bins=30, normed=1, edgecolor='none')
+    ax.plot(x, y1, '.-')
+    ax.set_xlabel('Rainfall')
+    ax.set_ylabel('Probability Density')
+    s=month + " RainFall"
+    ax.set_title(s)
+    nplot+=1
+plotly_fig = tls.mpl_to_plotly( fig )
+py.iplot_mpl(fig, filename='mle_gamma')
+#plotly_fig = tls.mpl_to_plotly( fig )
+#plotly_url = py.plot(plotly_fig)
+
+
+```python
+''' Please note at this time click the EDIT CHART and beautify the chart as per your choice. There are tutorials available on this most widely tool. The chart is beautified in order to present these interesting results to the audience'''
+```
+
+
+
+
+    ' Please note at this time click the EDIT CHART and beautify the chart as per your choice. There are tutorials available on this most widely tool. The chart is beautified in order to present these interesting results to the audience'
+
+
+
+
+```python
+
+```
+</xmp>
+
+<script src="http://cdn.ztx.io/strapdown/strapdown.min.js"></script> 
+</html>
