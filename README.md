@@ -49,4 +49,4 @@ KstestResult(statistic=0.79827003150003439, pvalue=0.0)
 
 ### Note
 
-If you are using the plotly data for presenting the results to an audience, please download the code and the dataset from the plotly link provided. The charts shown in plotly are modified from the images that are exported from matplotlib onto plotly.
+If you are using the plotly data for presenting the results to the audience, please download the code and the dataset from the plotly link provided. The charts shown in plotly are modified from the images that are exported from matplotlib onto plotly.
